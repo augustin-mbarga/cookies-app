@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookies en JS</title>
+</head>
+<body>
+    <h1 class="title">Création de <span>Cookies</span> 🍪</h1>
+    <main class="container">
+        <form>
+            <div class="input-group">
+                <label for="name">Son nom</label>
+                <input 
+                type="text"
+                id="name"
+                autocomplete="off"
+                required
+                >
+            </div>
+            <div class="input-group">
+                <label for="value">Sa valeur</label>
+                <input 
+                type="text" 
+                id="value"
+                autocomplete="off" 
+                required 
+                >
+            </div>
+            <div class="btns-container">
+                <button type= "submit" class="create-cookie-btn">Créer</button>
+                <button type="button" class="display-cookie-btn">Afficher</button>
+            </div>
+        </form>
+        <p class="info-txt"></p>
+        <ul class="cookies-list">
+
+        </ul>
+    </main>
+    <!-- Tooltip -->
+    <div class="toasts-container"></div>
+</body>
+</html>
