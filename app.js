@@ -54,11 +54,6 @@ function doesCookieExist(name) {
     const cookies = document.cookie.replace(/ /g, '').split(';');
     const onlyCookiesName = cookies.map((cookie) => cookie.split('=')[0]
     );
-    const cookiePresence = onlyCookiesName.find(cookie => cookie === name);
-    if(!cookiePresence) {
-        return false;
-    }
-    else {
-        return true;
-    }
+    const cookiePresence = onlyCookiesName.find(cookie => cookie === encodeURIComponent(name));
+    return cookiePresence;
 }
