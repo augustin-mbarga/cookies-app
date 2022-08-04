@@ -33,5 +33,11 @@ function handleForm(event) {
     });
     // Add an expire cookie's date
     newCookie.expires = new Date(new Date().getTime() + 7 * 24 *60 * 60 * 1000);
-    // console.log(newCookie);
+    
+    createCookie(newCookie);
+}
+
+function createCookie(newCookie) {
+    // create a cookie
+    document.cookie = `${encodeURIComponent(newCookie.name)}=${encodeURIComponent(newCookie.value)};expires=${newCookie.expires.toUTCString()}`; // use of UTCString method to convert the expires cookie's date OBJECT to a String
 }
