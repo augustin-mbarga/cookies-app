@@ -38,6 +38,27 @@ function handleForm(event) {
 }
 
 function createCookie(newCookie) {
+    if(doesCookieExist(newCookie.name)) {
+        // createToast();
+        console.log('Le cookie existe déjà. Prêt pour la mise à jour !')
+    }
+    else {
+        // createToast();
+        console.log('Nouveau cookie. Prêt pour la création !')
+    }
     // create a cookie
     document.cookie = `${encodeURIComponent(newCookie.name)}=${encodeURIComponent(newCookie.value)};expires=${newCookie.expires.toUTCString()}`; // use of UTCString method to convert the expires cookie's date OBJECT to a String
+}
+
+function doesCookieExist(name) {
+    const cookies = document.cookie.replace(/ /g, '').split(';');
+    const onlyCookiesName = cookies.map((cookie) => cookie.split('=')[0]
+    );
+    const cookiePresence = onlyCookiesName.find(cookie => cookie === name);
+    if(!cookiePresence) {
+        return false;
+    }
+    else {
+        return true;
+    }
 }
