@@ -7,6 +7,7 @@ inputs.forEach(input => {
 });
 
 function handleValidation(event){
+
     if(event.type === "invalid") {
         // use of setCustomValidity method to change the warning message
         event.target.setCustomValidity("Ce champ ne peut être vide.");
@@ -21,6 +22,7 @@ const cookieForm = document.querySelector("form");
 cookieForm.addEventListener("submit", handleForm);
 
 function handleForm(event) {
+
     event.preventDefault();
 
     const newCookie = {};
@@ -38,22 +40,42 @@ function handleForm(event) {
 }
 
 function createCookie(newCookie) {
+
     if(doesCookieExist(newCookie.name)) {
-        // createToast();
         console.log('Le cookie existe déjà. Prêt pour la mise à jour !')
+        createToast({ name: newCookie.name, state: "modifié", color: "orangered"});
     }
     else {
-        // createToast();
         console.log('Nouveau cookie. Prêt pour la création !')
+        createToast({ name: newCookie.name, state: "crée", color: "green"});
     }
     // create a cookie
     document.cookie = `${encodeURIComponent(newCookie.name)}=${encodeURIComponent(newCookie.value)};expires=${newCookie.expires.toUTCString()}`; // use of UTCString method to convert the expires cookie's date OBJECT to a String
 }
 
 function doesCookieExist(name) {
-    const cookies = document.cookie.replace(/ /g, '').split(';');
-    const onlyCookiesName = cookies.map((cookie) => cookie.split('=')[0]
+
+    const cookies = document.cookie.replace(/\s/g, "").split(";");
+    const onlyCookiesName = cookies.map((cookie) => cookie.split("=")[0]
     );
+    
     const cookiePresence = onlyCookiesName.find(cookie => cookie === encodeURIComponent(name));
+    
     return cookiePresence;
+}
+
+const toastsContainer = document.querySelector(".toasts-container");
+
+function createToast({name, state, color}) {
+
+    const toastInfo = document.createElement("p");
+    toastInfo.className = "toast";
+
+    toastInfo.textContent = `Cookie ${name} ${state}.`;
+    toastInfo.style.backgroundColor = color;
+    toastsContainer.appendChild(toastInfo);
+
+    setTimeout( () => {
+        toastInfo.remove();
+    }, 2500);
 }
