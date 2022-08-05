@@ -35,10 +35,10 @@ function handleForm(event) {
     });
     // Add an expire cookie's date
     newCookie.expires = new Date(new Date().getTime() + 7 * 24 *60 * 60 * 1000);
+    cookieForm.reset(); // Reset the inputs of the Form
     
     createCookie(newCookie);
 
-    cookieForm.reset();
 }
 
 function createCookie(newCookie) {
@@ -80,4 +80,25 @@ function createToast({name, state, color}) {
     setTimeout( () => {
         toastInfo.remove();
     }, 2500);
+}
+
+const cookiesList = document.querySelector(".cookies-list");
+const displayCookieBtn = document.querySelector(".display-cookie-btn");
+const infoTxt = document.querySelector(".info-txt");
+
+displayCookieBtn.addEventListener("click", displayCookies);
+
+let lock = false;
+function displayCookies() {
+    const cookies = document.cookie.replace(/\s/g, "").split(";").reverse();
+    if(!cookies[0]) {
+        if(lock) return;
+        lock = true;
+        infoTxt.textContent = "Pas de cookies à afficher, créez-en un !";
+        setTimeout(() => {
+            lock = false;
+            infoTxt.textContent = "";
+        }, 2500);
+        return;
+    }
 }
