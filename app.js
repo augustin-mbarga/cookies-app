@@ -53,6 +53,10 @@ function createCookie(newCookie) {
     }
     // create a cookie
     document.cookie = `${encodeURIComponent(newCookie.name)}=${encodeURIComponent(newCookie.value)};expires=${newCookie.expires.toUTCString()}`; // use of UTCString method to convert the expires cookie's date OBJECT to a String
+
+    if (cookiesList.children.length) {
+        displayCookies();
+    }
 }
 
 function doesCookieExist(name) {
@@ -90,6 +94,8 @@ displayCookieBtn.addEventListener("click", displayCookies);
 
 let lock = false;
 function displayCookies() {
+    if (cookiesList.children.length) cookiesList.textContent = "";
+    
     const cookies = document.cookie.replace(/\s/g, "").split(";").reverse();
     if(!cookies[0]) {
         if(lock) return;
@@ -101,4 +107,28 @@ function displayCookies() {
         }, 2500);
         return;
     }
+    createElements(cookies);
+}
+
+function createElements(cookies) {
+    cookies.forEach((cookie) => {
+        const formatCookie = cookie.split("=");
+        const listItem = document.createElement("li");
+        const name = decodeURIComponent(formatCookie[0]);
+        listItem.innerHTML = `
+            <p>
+                <span>Nom</span> : ${name}
+            </p>
+            <p>
+                <span>Valeur</span>: ${decodeURIComponent(formatCookie[1])}
+            </p>
+            <button>X</button>
+        `;
+        listItem.querySelector("button").addEventListener("click", (e) => {
+            createToast({ name: name, state: "supprimé", color: "crimson" });
+            document.cookie = `${formatCookie[0]}=; expires=${new Date(0)}`;
+            e.target.parentElement.remove();
+        });
+        cookiesList.appendChild(listItem);
+    });
 }
